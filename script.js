@@ -1,3 +1,30 @@
+let villas = JSON.parse(localStorage.getItem('villas')) || [
+    { id: 1, name: "Overwater Bungalow 01", price: 650, status: "Available" },
+    { id: 2, name: "Oceanfront Pool Villa 02", price: 500, status: "Booked" },
+    { id: 3, name: "Tropical Forest Chalet 03", price: 380, status: "Available" }
+];
+
+let bookings = JSON.parse(localStorage.getItem('bookings')) || [
+    { id: 201, guest: "Michael Scott", unit: "Overwater Bungalow 01", dates: "2026-09-01 / 2026-09-05", status: "Approved" },
+    { id: 202, guest: "Emma Watson", unit: "Oceanfront Pool Villa 02", dates: "2026-09-10 / 2026-09-12", status: "Pending" }
+];
+
+let employees = JSON.parse(localStorage.getItem('employees')) || [
+    { id: 1, name: "Tanvir Hossain", role: "Resort Manager" },
+    { id: 2, name: "Nusrat Jahan", role: "Activity Coordinator" }
+];
+
+let leaves = JSON.parse(localStorage.getItem('leaves')) || [
+    { id: 1, name: "Nusrat Jahan", reason: "Personal Leave", days: 3, status: "Pending" }
+];
+
+function saveData() {
+    localStorage.setItem('villas', JSON.stringify(villas));
+    localStorage.setItem('bookings', JSON.stringify(bookings));
+    localStorage.setItem('employees', JSON.stringify(employees));
+    localStorage.setItem('leaves', JSON.stringify(leaves));
+}
+
 function navigate(sectionId) {
     document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
     document.getElementById(sectionId).classList.add('active');
@@ -9,29 +36,29 @@ function selectVilla(villaName) {
     navigate('booking');
 }
 
-async function submitBooking(e) {
+function submitBooking(e) {
     e.preventDefault();
     const guest = document.getElementById('guestName').value;
     const unit = document.getElementById('unitType').value;
     const checkIn = document.getElementById('checkIn').value;
     const checkOut = document.getElementById('checkOut').value;
 
-    const res = await fetch('/api/bookings', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ guest, unit, dates: `${checkIn} /${checkOut}` })
-    });
+    const newBooking = {
+        id: Math.floor(200 + Math.random() * 800),
+        guest,
+        unit,
+        dates: `${checkIn} / ${checkOut}`,
+        status: "Pending"
+    };
 
-    const data = await res.json();
-    alert(data.message);
+    bookings.push(newBooking);
+    saveData();
+    alert("Resort reservation request submitted successfully!");
     document.getElementById('bookingForm').reset();
     navigate('guest-dashboard');
 }
 
-async function renderBookings() {
-    const res = await fetch('/api/bookings');
-    const bookings = await res.json();
-
+function renderBookings() {
     const guestTable = document.getElementById('guestTable');
     const adminTable = document.getElementById('adminBookingTable');
 
@@ -76,18 +103,16 @@ async function renderBookings() {
     document.getElementById('statApproved').innerText = approved;
 }
 
-async function updateBookingStatus(id, status) {
-    await fetch(`/api/bookings/${id}/status`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status })
-    });
-    renderBookings();
+function updateBookingStatus(id, status) {
+    const booking = bookings.find(b => b.id === id);
+    if (booking) {
+        booking.status = status;
+        saveData();
+        renderBookings();
+    }
 }
 
-async function renderAdminControls() {
-    const resVillas = await fetch('/api/villas');
-    const villas = await resVillas.json();
+function renderAdminControls() {
     document.getElementById('adminVillaList').innerHTML = villas.map(v => `
         <li>
             <span>${v.name}</span>
@@ -95,8 +120,6 @@ async function renderAdminControls() {
         </li>
     `).join('');
 
-    const resEmp = await fetch('/api/employees');
-    const employees = await resEmp.json();
     document.getElementById('adminEmpList').innerHTML = employees.map(e => `
         <li>
             <span><strong>${e.name}</strong> (${e.role})</span>
@@ -104,48 +127,43 @@ async function renderAdminControls() {
     `).join('');
 }
 
-async function toggleVillaStatus(id) {
-    await fetch(`/api/villas/${id}/toggle`, { method: 'PUT' });
-    renderAdminControls();
+function toggleVillaStatus(id) {
+    const villa = villas.find(v => v.id === id);
+    if (villa) {
+        villa.status = villa.status === "Available" ? "Booked" : "Available";
+        saveData();
+        renderAdminControls();
+    }
 }
 
-async function addEmployee(e) {
+function addEmployee(e) {
     e.preventDefault();
     const name = document.getElementById('empName').value;
     const role = document.getElementById('empRole').value;
 
-    await fetch('/api/employees', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, role })
-    });
+    employees.push({ id: Date.now(), name, role });
+    saveData();
 
     document.getElementById('empName').value = '';
     document.getElementById('empRole').value = '';
     renderAdminControls();
 }
 
-async function submitLeave(e) {
+function submitLeave(e) {
     e.preventDefault();
     const name = document.getElementById('leaveName').value;
     const reason = document.getElementById('leaveReason').value;
     const days = document.getElementById('leaveDays').value;
 
-    await fetch('/api/leaves', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, reason, days })
-    });
+    leaves.push({ id: Date.now(), name, reason, days, status: "Pending" });
+    saveData();
 
     alert("Leave Request Submitted!");
     e.target.reset();
     renderLeaves();
 }
 
-async function renderLeaves() {
-    const res = await fetch('/api/leaves');
-    const leaves = await res.json();
-
+function renderLeaves() {
     document.getElementById('leaveTable').innerHTML = leaves.map(l => `
         <tr>
             <td>${l.name}</td>
@@ -161,9 +179,13 @@ async function renderLeaves() {
     `).join('');
 }
 
-async function approveLeave(id) {
-    await fetch(`/api/leaves/${id}/approve`, { method: 'PUT' });
-    renderLeaves();
+function approveLeave(id) {
+    const leave = leaves.find(l => l.id === id);
+    if (leave) {
+        leave.status = "Approved";
+        saveData();
+        renderLeaves();
+    }
 }
 
 function renderAll() {
