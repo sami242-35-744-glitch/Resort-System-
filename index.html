@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Grand Horizon - Luxury Hotel & Resort</title>
+    <title>Paradise Cove - Eco Resort & Spa</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <header>
-        <div class="logo">GRAND HORIZON</div>
+        <div class="logo">PARADISE COVE</div>
         <nav>
             <ul>
                 <li><a href="#" onclick="navigate('home')">Home</a></li>
-                <li><a href="#" onclick="navigate('booking')">Book Room</a></li>
-                <li><a href="#" onclick="navigate('customer-dashboard')">Customer Dashboard</a></li>
-                <li><a href="#" onclick="navigate('admin-panel')">Admin Panel</a></li>
+                <li><a href="#" onclick="navigate('booking')">Book Villa</a></li>
+                <li><a href="#" onclick="navigate('guest-dashboard')">Guest Portal</a></li>
+                <li><a href="#" onclick="navigate('admin-panel')">Resort Admin</a></li>
                 <li><a href="#" onclick="navigate('staff-leave')">Staff Portal</a></li>
             </ul>
         </nav>
@@ -24,39 +24,39 @@
 
     <section id="home" class="page-section active">
         <div class="hero">
-            <h1>Experience Unrivaled Luxury</h1>
-            <p>Discover a sanctuary of elegance, comfort, and timeless hospitality.</p>
-            <button class="btn-gold" onclick="navigate('booking')">Reserve Your Stay</button>
+            <h1>Escape to Tropical Paradise</h1>
+            <p>Luxury overwater villas, oceanfront chalets, and private spa retreats.</p>
+            <button class="btn-gold" onclick="navigate('booking')">Explore Availability</button>
         </div>
 
         <div class="container">
-            <h2 class="section-title">Our Signature Suites</h2>
+            <h2 class="section-title">Villas & Cottages</h2>
             <div class="grid-3">
-                <div class="card room-card">
-                    <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=500" alt="Presidential Suite">
+                <div class="card villa-card">
+                    <img src="https://images.unsplash.com/photo-1540541338287-41700207dee6?w=500" alt="Bungalow">
                     <div class="card-body">
-                        <h3>Presidential Suite</h3>
-                        <p class="price">$450 / Night</p>
-                        <p>Ocean view, private jacuzzi, and 24/7 personal butler.</p>
-                        <button class="btn-outline" onclick="selectRoom('Presidential Suite 101')">Book Suite</button>
+                        <h3>Overwater Bungalow</h3>
+                        <p class="price">$650 / Night</p>
+                        <p>Direct ocean access, glass floor deck, private pool.</p>
+                        <button class="btn-outline" onclick="selectVilla('Overwater Bungalow 01')">Reserve</button>
                     </div>
                 </div>
-                <div class="card room-card">
-                    <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=500" alt="Executive Deluxe">
+                <div class="card villa-card">
+                    <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=500" alt="Pool Villa">
                     <div class="card-body">
-                        <h3>Executive Deluxe</h3>
-                        <p class="price">$280 / Night</p>
-                        <p>King size bed, city skyline view, and complimentary spa.</p>
-                        <button class="btn-outline" onclick="selectRoom('Executive Deluxe 201')">Book Suite</button>
+                        <h3>Oceanfront Pool Villa</h3>
+                        <p class="price">$500 / Night</p>
+                        <p>Private beach front, infinity plunge pool, free breakfast.</p>
+                        <button class="btn-outline" onclick="selectVilla('Oceanfront Pool Villa 02')">Reserve</button>
                     </div>
                 </div>
-                <div class="card room-card">
-                    <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=500" alt="Royal Family Suite">
+                <div class="card villa-card">
+                    <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?w=500" alt="Chalet">
                     <div class="card-body">
-                        <h3>Royal Family Suite</h3>
-                        <p class="price">$350 / Night</p>
-                        <p>Spacious two-bedroom suite with private lounge balcony.</p>
-                        <button class="btn-outline" onclick="selectRoom('Royal Family Suite 301')">Book Suite</button>
+                        <h3>Tropical Forest Chalet</h3>
+                        <p class="price">$380 / Night</p>
+                        <p>Nestled in lush greenery, outdoor jacuzzi, canopy views.</p>
+                        <button class="btn-outline" onclick="selectVilla('Tropical Forest Chalet 03')">Reserve</button>
                     </div>
                 </div>
             </div>
@@ -65,19 +65,19 @@
 
     <section id="booking" class="page-section">
         <div class="container">
-            <h2 class="section-title">Reserve Your Stay</h2>
+            <h2 class="section-title">Book Your Resort Stay</h2>
             <div class="card form-container">
                 <form id="bookingForm" onsubmit="submitBooking(event)">
                     <div class="form-group">
                         <label>Guest Full Name</label>
-                        <input type="text" id="guestName" placeholder="e.g. John Doe" required>
+                        <input type="text" id="guestName" placeholder="Enter guest name" required>
                     </div>
                     <div class="form-group">
-                        <label>Room Category</label>
-                        <select id="roomType">
-                            <option value="Presidential Suite 101">Presidential Suite 101 ($450)</option>
-                            <option value="Executive Deluxe 201">Executive Deluxe 201 ($280)</option>
-                            <option value="Royal Family Suite 301">Royal Family Suite 301 ($350)</option>
+                        <label>Select Villa / Cottage</label>
+                        <select id="unitType">
+                            <option value="Overwater Bungalow 01">Overwater Bungalow 01 ($650)</option>
+                            <option value="Oceanfront Pool Villa 02">Oceanfront Pool Villa 02 ($500)</option>
+                            <option value="Tropical Forest Chalet 03">Tropical Forest Chalet 03 ($380)</option>
                         </select>
                     </div>
                     <div class="grid-2">
@@ -90,20 +90,20 @@
                             <input type="date" id="checkOut" required>
                         </div>
                     </div>
-                    <button type="submit" class="btn-gold block">Confirm Reservation</button>
+                    <button type="submit" class="btn-gold block">Confirm Resort Reservation</button>
                 </form>
             </div>
         </div>
     </section>
 
-    <section id="customer-dashboard" class="page-section">
+    <section id="guest-dashboard" class="page-section">
         <div class="container">
-            <h2 class="section-title">Customer Dashboard</h2>
+            <h2 class="section-title">Guest Portal & Booking Tracker</h2>
             
             <div class="stats-grid">
                 <div class="stat-card">
                     <h3 id="statTotal">0</h3>
-                    <p>Total Bookings</p>
+                    <p>Total Reservations</p>
                 </div>
                 <div class="stat-card yellow">
                     <h3 id="statPending">0</h3>
@@ -111,23 +111,23 @@
                 </div>
                 <div class="stat-card green">
                     <h3 id="statApproved">0</h3>
-                    <p>Approved Reservations</p>
+                    <p>Confirmed Stays</p>
                 </div>
             </div>
 
             <div class="card">
-                <h3>My Booking Status</h3>
+                <h3>My Resort Bookings</h3>
                 <table>
                     <thead>
                         <tr>
-                            <th>Booking ID</th>
+                            <th>ID</th>
                             <th>Guest Name</th>
-                            <th>Suite</th>
-                            <th>Dates</th>
+                            <th>Villa Type</th>
+                            <th>Stay Dates</th>
                             <th>Status</th>
                         </tr>
                     </thead>
-                    <tbody id="customerTable"></tbody>
+                    <tbody id="guestTable"></tbody>
                 </table>
             </div>
         </div>
@@ -135,17 +135,17 @@
 
     <section id="admin-panel" class="page-section">
         <div class="container">
-            <h2 class="section-title">Admin Management Console</h2>
+            <h2 class="section-title">Resort Management Console</h2>
 
             <div class="card">
-                <h3>Guest Reservations Control</h3>
+                <h3>Reservation Approvals</h3>
                 <table>
                     <thead>
                         <tr>
                             <th>ID</th>
                             <th>Guest Name</th>
-                            <th>Room</th>
-                            <th>Check-In / Out</th>
+                            <th>Unit</th>
+                            <th>Dates</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -156,16 +156,16 @@
 
             <div class="grid-2">
                 <div class="card">
-                    <h3>Room Availability Control</h3>
-                    <ul class="list-box" id="adminRoomList"></ul>
+                    <h3>Villa Status Toggle</h3>
+                    <ul class="list-box" id="adminVillaList"></ul>
                 </div>
 
                 <div class="card">
-                    <h3>Employee Directory</h3>
+                    <h3>Staff & Guides Directory</h3>
                     <form onsubmit="addEmployee(event)" class="inline-form">
                         <input type="text" id="empName" placeholder="Name" required>
-                        <input type="text" id="empRole" placeholder="Role" required>
-                        <button type="submit" class="btn-gold">Add Staff</button>
+                        <input type="text" id="empRole" placeholder="Role (e.g. Guide)" required>
+                        <button type="submit" class="btn-gold">Add</button>
                     </form>
                     <ul class="list-box" id="adminEmpList"></ul>
                 </div>
@@ -175,34 +175,34 @@
 
     <section id="staff-leave" class="page-section">
         <div class="container">
-            <h2 class="section-title">Staff Portal - Leave Management</h2>
+            <h2 class="section-title">Staff Portal - Leave Requests</h2>
 
             <div class="grid-2">
                 <div class="card">
-                    <h3>Request Leave</h3>
+                    <h3>Apply for Leave</h3>
                     <form onsubmit="submitLeave(event)">
                         <div class="form-group">
-                            <label>Employee Name</label>
-                            <input type="text" id="leaveName" required placeholder="Enter full name">
+                            <label>Staff Member Name</label>
+                            <input type="text" id="leaveName" required placeholder="Your name">
                         </div>
                         <div class="form-group">
-                            <label>Reason for Leave</label>
-                            <input type="text" id="leaveReason" required placeholder="e.g. Medical / Family">
+                            <label>Reason</label>
+                            <input type="text" id="leaveReason" required placeholder="Reason for leave">
                         </div>
                         <div class="form-group">
-                            <label>Duration (Days)</label>
+                            <label>Days Requested</label>
                             <input type="number" id="leaveDays" min="1" required placeholder="1">
                         </div>
-                        <button type="submit" class="btn-gold block">Submit Leave Request</button>
+                        <button type="submit" class="btn-gold block">Submit Application</button>
                     </form>
                 </div>
 
                 <div class="card">
-                    <h3>Leave Applications Status</h3>
+                    <h3>Leave Status & Management</h3>
                     <table>
                         <thead>
                             <tr>
-                                <th>Staff Name</th>
+                                <th>Name</th>
                                 <th>Reason</th>
                                 <th>Days</th>
                                 <th>Status</th>
