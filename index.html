@@ -133,43 +133,69 @@
         </div>
     </section>
 
+    <!-- ADMIN PANEL WITH LOGIN PROTECTED SECTION -->
     <section id="admin-panel" class="page-section">
         <div class="container">
             <h2 class="section-title">Resort Management Console</h2>
 
-            <div class="card">
-                <h3>Reservation Approvals</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Guest Name</th>
-                            <th>Unit</th>
-                            <th>Dates</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="adminBookingTable"></tbody>
-                </table>
+            <!-- Admin Login Card (Visible by default until logged in) -->
+            <div id="adminLoginForm" class="card form-container">
+                <h3>Admin Authentication</h3>
+                <form onsubmit="adminLogin(event)">
+                    <div class="form-group">
+                        <label>Username / Admin ID</label>
+                        <input type="text" id="adminUser" placeholder="Enter username" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="adminPass" placeholder="Enter password" required>
+                    </div>
+                    <button type="submit" class="btn-gold block">Login to Admin Portal</button>
+                </form>
             </div>
 
-            <div class="grid-2">
-                <div class="card">
-                    <h3>Villa Status Toggle</h3>
-                    <ul class="list-box" id="adminVillaList"></ul>
+            <!-- Admin Dashboard Content (Hidden by default, shown after correct JS login) -->
+            <div id="adminContent" style="display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3>Welcome, Administrator</h3>
+                    <button class="btn-outline" onclick="adminLogout()">Logout</button>
                 </div>
 
                 <div class="card">
-                    <h3>Staff & Guides Directory</h3>
-                    <form onsubmit="addEmployee(event)" class="inline-form">
-                        <input type="text" id="empName" placeholder="Name" required>
-                        <input type="text" id="empRole" placeholder="Role (e.g. Guide)" required>
-                        <button type="submit" class="btn-gold">Add</button>
-                    </form>
-                    <ul class="list-box" id="adminEmpList"></ul>
+                    <h3>Reservation Approvals</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Guest Name</th>
+                                <th>Unit</th>
+                                <th>Dates</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminBookingTable"></tbody>
+                    </table>
+                </div>
+
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>Villa Status Toggle</h3>
+                        <ul class="list-box" id="adminVillaList"></ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>Staff & Guides Directory</h3>
+                        <form onsubmit="addEmployee(event)" class="inline-form">
+                            <input type="text" id="empName" placeholder="Name" required>
+                            <input type="text" id="empRole" placeholder="Role (e.g. Guide)" required>
+                            <button type="submit" class="btn-gold">Add</button>
+                        </form>
+                        <ul class="list-box" id="adminEmpList"></ul>
+                    </div>
                 </div>
             </div>
+
         </div>
     </section>
 
