@@ -133,12 +133,10 @@
         </div>
     </section>
 
-    
     <section id="admin-panel" class="page-section">
         <div class="container">
             <h2 class="section-title">Resort Management Console</h2>
 
-           
             <div id="adminLoginForm" class="card form-container">
                 <h3>Admin Authentication</h3>
                 <form onsubmit="adminLogin(event)">
@@ -154,7 +152,6 @@
                 </form>
             </div>
 
-          
             <div id="adminContent" style="display: none;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                     <h3>Welcome, Administrator</h3>
@@ -203,42 +200,65 @@
         <div class="container">
             <h2 class="section-title">Staff Portal - Leave Requests</h2>
 
-            <div class="grid-2">
-                <div class="card">
-                    <h3>Apply for Leave</h3>
-                    <form onsubmit="submitLeave(event)">
-                        <div class="form-group">
-                            <label>Staff Member Name</label>
-                            <input type="text" id="leaveName" required placeholder="Your name">
-                        </div>
-                        <div class="form-group">
-                            <label>Reason</label>
-                            <input type="text" id="leaveReason" required placeholder="Reason for leave">
-                        </div>
-                        <div class="form-group">
-                            <label>Days Requested</label>
-                            <input type="number" id="leaveDays" min="1" required placeholder="1">
-                        </div>
-                        <button type="submit" class="btn-gold block">Submit Application</button>
-                    </form>
+            <div id="staffLoginForm" class="card form-container">
+                <h3>Staff Authentication</h3>
+                <form onsubmit="staffLogin(event)">
+                    <div class="form-group">
+                        <label>Staff ID / Username</label>
+                        <input type="text" id="staffUser" placeholder="Enter staff username" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="staffPass" placeholder="Enter password" required>
+                    </div>
+                    <button type="submit" class="btn-gold block">Login to Staff Portal</button>
+                </form>
+            </div>
+
+            <div id="staffContent" style="display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3>Welcome, Staff Member</h3>
+                    <button class="btn-outline" onclick="staffLogout()">Logout</button>
                 </div>
 
-                <div class="card">
-                    <h3>Leave Status & Management</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Reason</th>
-                                <th>Days</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="leaveTable"></tbody>
-                    </table>
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>Apply for Leave</h3>
+                        <form onsubmit="submitLeave(event)">
+                            <div class="form-group">
+                                <label>Staff Member Name</label>
+                                <input type="text" id="leaveName" required placeholder="Your name">
+                            </div>
+                            <div class="form-group">
+                                <label>Reason</label>
+                                <input type="text" id="leaveReason" required placeholder="Reason for leave">
+                            </div>
+                            <div class="form-group">
+                                <label>Days Requested</label>
+                                <input type="number" id="leaveDays" min="1" required placeholder="1">
+                            </div>
+                            <button type="submit" class="btn-gold block">Submit Application</button>
+                        </form>
+                    </div>
+
+                    <div class="card">
+                        <h3>Leave Status & Management</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Reason</th>
+                                    <th>Days</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="leaveTable"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
+
         </div>
     </section>
 
