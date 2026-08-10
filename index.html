@@ -100,35 +100,14 @@
         <div class="container">
             <h2 class="section-title">Guest Portal & Booking Tracker</h2>
             
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h3 id="statTotal">0</h3>
-                    <p>Total Reservations</p>
+            <div class="card form-container">
+                <h3>Track Reservation Status</h3>
+                <p style="color: var(--text-sub); margin-bottom: 15px; font-size: 14px;">Enter your Booking ID to view your reservation details.</p>
+                <div class="inline-form">
+                    <input type="text" id="searchBookingId" placeholder="e.g. 201">
+                    <button class="btn-gold" onclick="trackBooking()">Track</button>
                 </div>
-                <div class="stat-card yellow">
-                    <h3 id="statPending">0</h3>
-                    <p>Pending Approval</p>
-                </div>
-                <div class="stat-card green">
-                    <h3 id="statApproved">0</h3>
-                    <p>Confirmed Stays</p>
-                </div>
-            </div>
-
-            <div class="card">
-                <h3>My Resort Bookings</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Guest Name</th>
-                            <th>Villa Type</th>
-                            <th>Stay Dates</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody id="guestTable"></tbody>
-                </table>
+                <div id="bookingSearchResult"></div>
             </div>
         </div>
     </section>
@@ -214,7 +193,7 @@
 
     <section id="staff-leave" class="page-section">
         <div class="container">
-            <h2 class="section-title">Staff Portal - My Leave Requests</h2>
+            <h2 class="section-title">Staff Portal - Leave Requests</h2>
 
             <div id="staffLoginForm" class="card form-container">
                 <h3>Staff Authentication</h3>
@@ -258,7 +237,7 @@
                     </div>
 
                     <div class="card">
-                        <h3>My Leave Status</h3>
+                        <h3>My Leave Requests</h3>
                         <table>
                             <thead>
                                 <tr>
