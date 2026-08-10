@@ -241,25 +241,42 @@ function submitLeave(e) {
 }
 
 function renderLeaves() {
-    document.getElementById('leaveTable').innerHTML = leaves.map(l => `
-        <tr>
-            <td>${l.name}</td>
-            <td>${l.reason}</td>
-            <td>${l.days} Days</td>
-            <td><span class="badge ${l.status.toLowerCase()}">${l.status}</span></td>
-            <td>
-                ${l.status === 'Pending' ? `
-                    <button class="btn-sm btn-approve" onclick="approveLeave(${l.id})">Approve</button>
-                ` : 'Approved'}
-            </td>
-        </tr>
-    `).join('');
+    const staffLeaveTable = document.getElementById('staffLeaveTable');
+    const adminLeaveTable = document.getElementById('adminLeaveTable');
+
+    if (staffLeaveTable) {
+        staffLeaveTable.innerHTML = leaves.map(l => `
+            <tr>
+                <td>${l.name}</td>
+                <td>${l.reason}</td>
+                <td>${l.days} Days</td>
+                <td><span class="badge ${l.status.toLowerCase()}">${l.status}</span></td>
+            </tr>
+        `).join('');
+    }
+
+    if (adminLeaveTable) {
+        adminLeaveTable.innerHTML = leaves.map(l => `
+            <tr>
+                <td>${l.name}</td>
+                <td>${l.reason}</td>
+                <td>${l.days} Days</td>
+                <td><span class="badge ${l.status.toLowerCase()}">${l.status}</span></td>
+                <td>
+                    ${l.status === 'Pending' ? `
+                        <button class="btn-sm btn-approve" onclick="updateLeaveStatus(${l.id}, 'Approved')">Approve</button>
+                        <button class="btn-sm btn-reject" onclick="updateLeaveStatus(${l.id}, 'Rejected')">Reject</button>
+                    ` : 'Processed'}
+                </td>
+            </tr>
+        `).join('');
+    }
 }
 
-function approveLeave(id) {
+function updateLeaveStatus(id, status) {
     const leave = leaves.find(l => l.id === id);
     if (leave) {
-        leave.status = "Approved";
+        leave.status = status;
         saveData();
         renderLeaves();
     }
