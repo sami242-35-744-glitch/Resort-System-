@@ -39,6 +39,31 @@ function selectVilla(villaName) {
     navigate('booking');
 }
 
+function trackBooking() {
+    const inputVal = document.getElementById('searchBookingId').value.trim().replace('#', '');
+    const resultDiv = document.getElementById('bookingSearchResult');
+
+    if (!inputVal) {
+        resultDiv.innerHTML = `<p style="color: var(--danger); margin-top: 10px;">Please enter a Booking ID.</p>`;
+        return;
+    }
+
+    const booking = bookings.find(b => b.id.toString() === inputVal);
+
+    if (booking) {
+        resultDiv.innerHTML = `
+            <div style="margin-top: 15px; padding: 15px; background: rgba(16, 185, 129, 0.1); border: 1px solid var(--teal); border-radius: 6px;">
+                <p><strong>Booking ID:</strong> #${booking.id}</p>
+                <p><strong>Villa:</strong> ${booking.unit}</p>
+                <p><strong>Dates:</strong> ${booking.dates}</p>
+                <p><strong>Status:</strong> <span class="badge ${booking.status.toLowerCase()}">${booking.status}</span></p>
+            </div>
+        `;
+    } else {
+        resultDiv.innerHTML = `<p style="color: var(--danger); margin-top: 10px;">No booking found with ID #${inputVal}</p>`;
+    }
+}
+
 function checkAdminAuth() {
     const loginForm = document.getElementById('adminLoginForm');
     const adminContent = document.getElementById('adminContent');
@@ -119,9 +144,10 @@ function submitBooking(e) {
     const unit = document.getElementById('unitType').value;
     const checkIn = document.getElementById('checkIn').value;
     const checkOut = document.getElementById('checkOut').value;
+    const generatedId = Math.floor(200 + Math.random() * 800);
 
     const newBooking = {
-        id: Math.floor(200 + Math.random() * 800),
+        id: generatedId,
         guest,
         unit,
         dates: `${checkIn} / ${checkOut}`,
@@ -130,34 +156,20 @@ function submitBooking(e) {
 
     bookings.push(newBooking);
     saveData();
-    alert("Resort reservation request submitted successfully!");
+    alert(`Resort reservation submitted! Your Booking ID is #${generatedId}`);
     document.getElementById('bookingForm').reset();
     navigate('guest-dashboard');
+    document.getElementById('searchBookingId').value = generatedId;
+    trackBooking();
 }
 
 function renderBookings() {
-    const guestTable = document.getElementById('guestTable');
     const adminTable = document.getElementById('adminBookingTable');
+    if (!adminTable) return;
 
-    guestTable.innerHTML = '';
     adminTable.innerHTML = '';
 
-    let pending = 0, approved = 0;
-
     bookings.forEach(b => {
-        if (b.status === "Pending") pending++;
-        if (b.status === "Approved") approved++;
-
-        guestTable.innerHTML += `
-            <tr>
-                <td>#${b.id}</td>
-                <td>${b.guest}</td>
-                <td>${b.unit}</td>
-                <td>${b.dates}</td>
-                <td><span class="badge ${b.status.toLowerCase()}">${b.status}</span></td>
-            </tr>
-        `;
-
         adminTable.innerHTML += `
             <tr>
                 <td>#${b.id}</td>
@@ -174,10 +186,6 @@ function renderBookings() {
             </tr>
         `;
     });
-
-    document.getElementById('statTotal').innerText = bookings.length;
-    document.getElementById('statPending').innerText = pending;
-    document.getElementById('statApproved').innerText = approved;
 }
 
 function updateBookingStatus(id, status) {
