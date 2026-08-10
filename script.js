@@ -1,3 +1,4 @@
+// --- Initial Data Setup ---
 let villas = JSON.parse(localStorage.getItem('villas')) || [
     { id: 1, name: "Overwater Bungalow 01", price: 650, status: "Available" },
     { id: 2, name: "Oceanfront Pool Villa 02", price: 500, status: "Booked" },
@@ -17,6 +18,9 @@ let employees = JSON.parse(localStorage.getItem('employees')) || [
 let leaves = JSON.parse(localStorage.getItem('leaves')) || [
     { id: 1, name: "Nusrat Jahan", reason: "Personal Leave", days: 3, status: "Pending" }
 ];
+    
+let isAdminLoggedIn = sessionStorage.getItem('isAdminLoggedIn') === 'true';
+
 
 function saveData() {
     localStorage.setItem('villas', JSON.stringify(villas));
@@ -31,10 +35,51 @@ function navigate(sectionId) {
     renderAll();
 }
 
+
 function selectVilla(villaName) {
     document.getElementById('unitType').value = villaName;
     navigate('booking');
 }
+
+
+function checkAdminAuth() {
+    const loginForm = document.getElementById('adminLoginForm');
+    const adminContent = document.getElementById('adminContent');
+
+    if (!loginForm || !adminContent) return;
+
+    if (isAdminLoggedIn) {
+        loginForm.style.display = 'none';
+        adminContent.style.display = 'block';
+    } else {
+        loginForm.style.display = 'block';
+        adminContent.style.display = 'none';
+    }
+}
+
+function adminLogin(e) {
+    e.preventDefault();
+    const user = document.getElementById('adminUser').value;
+    const pass = document.getElementById('adminPass').value;
+
+    // Credentials set here (Username: admin | Password: 123456)
+    if (user === 'admin' && pass === '123456') {
+        isAdminLoggedIn = true;
+        sessionStorage.setItem('isAdminLoggedIn', 'true');
+        checkAdminAuth();
+        document.getElementById('adminUser').value = '';
+        document.getElementById('adminPass').value = '';
+    } else {
+        alert('Invalid Username or Password!');
+    }
+}
+
+function adminLogout() {
+    isAdminLoggedIn = false;
+    sessionStorage.removeItem('isAdminLoggedIn');
+    checkAdminAuth();
+}
+
 
 function submitBooking(e) {
     e.preventDefault();
@@ -188,7 +233,9 @@ function approveLeave(id) {
     }
 }
 
+// Render All Components On Page Load
 function renderAll() {
+    checkAdminAuth();
     renderBookings();
     renderAdminControls();
     renderLeaves();
