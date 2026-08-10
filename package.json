@@ -1,0 +1,12 @@
+{
+  "name": "luxury-hotel-management",
+  "version": "1.0.0",
+  "description": "Full Stack Hotel Management System Project",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
