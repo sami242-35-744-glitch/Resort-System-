@@ -1,7 +1,7 @@
 {
-  "name": "luxury-hotel-management",
+  "name": "paradise-resort-management",
   "version": "1.0.0",
-  "description": "Full Stack Hotel Management System Project",
+  "description": "Full Stack Resort Management System",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
