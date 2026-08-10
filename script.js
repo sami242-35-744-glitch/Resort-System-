@@ -1,4 +1,3 @@
-// --- Initial Data Setup ---
 let villas = JSON.parse(localStorage.getItem('villas')) || [
     { id: 1, name: "Overwater Bungalow 01", price: 650, status: "Available" },
     { id: 2, name: "Oceanfront Pool Villa 02", price: 500, status: "Booked" },
@@ -18,9 +17,9 @@ let employees = JSON.parse(localStorage.getItem('employees')) || [
 let leaves = JSON.parse(localStorage.getItem('leaves')) || [
     { id: 1, name: "Nusrat Jahan", reason: "Personal Leave", days: 3, status: "Pending" }
 ];
-    
-let isAdminLoggedIn = sessionStorage.getItem('isAdminLoggedIn') === 'true';
 
+let isAdminLoggedIn = sessionStorage.getItem('isAdminLoggedIn') === 'true';
+let isStaffLoggedIn = sessionStorage.getItem('isStaffLoggedIn') === 'true';
 
 function saveData() {
     localStorage.setItem('villas', JSON.stringify(villas));
@@ -35,12 +34,10 @@ function navigate(sectionId) {
     renderAll();
 }
 
-
 function selectVilla(villaName) {
     document.getElementById('unitType').value = villaName;
     navigate('booking');
 }
-
 
 function checkAdminAuth() {
     const loginForm = document.getElementById('adminLoginForm');
@@ -62,7 +59,6 @@ function adminLogin(e) {
     const user = document.getElementById('adminUser').value;
     const pass = document.getElementById('adminPass').value;
 
-    // Credentials set here (Username: admin | Password: 123456)
     if (user === 'admin' && pass === '123456') {
         isAdminLoggedIn = true;
         sessionStorage.setItem('isAdminLoggedIn', 'true');
@@ -80,6 +76,42 @@ function adminLogout() {
     checkAdminAuth();
 }
 
+function checkStaffAuth() {
+    const loginForm = document.getElementById('staffLoginForm');
+    const staffContent = document.getElementById('staffContent');
+
+    if (!loginForm || !staffContent) return;
+
+    if (isStaffLoggedIn) {
+        loginForm.style.display = 'none';
+        staffContent.style.display = 'block';
+    } else {
+        loginForm.style.display = 'block';
+        staffContent.style.display = 'none';
+    }
+}
+
+function staffLogin(e) {
+    e.preventDefault();
+    const user = document.getElementById('staffUser').value;
+    const pass = document.getElementById('staffPass').value;
+
+    if (user === 'staff' && pass === '123456') {
+        isStaffLoggedIn = true;
+        sessionStorage.setItem('isStaffLoggedIn', 'true');
+        checkStaffAuth();
+        document.getElementById('staffUser').value = '';
+        document.getElementById('staffPass').value = '';
+    } else {
+        alert('Invalid Username or Password!');
+    }
+}
+
+function staffLogout() {
+    isStaffLoggedIn = false;
+    sessionStorage.removeItem('isStaffLoggedIn');
+    checkStaffAuth();
+}
 
 function submitBooking(e) {
     e.preventDefault();
@@ -233,9 +265,9 @@ function approveLeave(id) {
     }
 }
 
-// Render All Components On Page Load
 function renderAll() {
     checkAdminAuth();
+    checkStaffAuth();
     renderBookings();
     renderAdminControls();
     renderLeaves();
