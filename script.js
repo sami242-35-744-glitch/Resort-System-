@@ -4,38 +4,38 @@ function navigate(sectionId) {
     renderAll();
 }
 
-function selectRoom(roomName) {
-    document.getElementById('roomType').value = roomName;
+function selectVilla(villaName) {
+    document.getElementById('unitType').value = villaName;
     navigate('booking');
 }
 
 async function submitBooking(e) {
     e.preventDefault();
     const guest = document.getElementById('guestName').value;
-    const room = document.getElementById('roomType').value;
+    const unit = document.getElementById('unitType').value;
     const checkIn = document.getElementById('checkIn').value;
     const checkOut = document.getElementById('checkOut').value;
 
     const res = await fetch('/api/bookings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ guest, room, dates: `${checkIn} / ${checkOut}` })
+        body: JSON.stringify({ guest, unit, dates: `${checkIn} /${checkOut}` })
     });
 
     const data = await res.json();
     alert(data.message);
     document.getElementById('bookingForm').reset();
-    navigate('customer-dashboard');
+    navigate('guest-dashboard');
 }
 
 async function renderBookings() {
     const res = await fetch('/api/bookings');
     const bookings = await res.json();
 
-    const custTable = document.getElementById('customerTable');
+    const guestTable = document.getElementById('guestTable');
     const adminTable = document.getElementById('adminBookingTable');
 
-    custTable.innerHTML = '';
+    guestTable.innerHTML = '';
     adminTable.innerHTML = '';
 
     let pending = 0, approved = 0;
@@ -44,11 +44,11 @@ async function renderBookings() {
         if (b.status === "Pending") pending++;
         if (b.status === "Approved") approved++;
 
-        custTable.innerHTML += `
+        guestTable.innerHTML += `
             <tr>
                 <td>#${b.id}</td>
                 <td>${b.guest}</td>
-                <td>${b.room}</td>
+                <td>${b.unit}</td>
                 <td>${b.dates}</td>
                 <td><span class="badge ${b.status.toLowerCase()}">${b.status}</span></td>
             </tr>
@@ -58,14 +58,14 @@ async function renderBookings() {
             <tr>
                 <td>#${b.id}</td>
                 <td>${b.guest}</td>
-                <td>${b.room}</td>
+                <td>${b.unit}</td>
                 <td>${b.dates}</td>
                 <td><span class="badge ${b.status.toLowerCase()}">${b.status}</span></td>
                 <td>
                     ${b.status === 'Pending' ? `
                         <button class="btn-sm btn-approve" onclick="updateBookingStatus(${b.id}, 'Approved')">Approve</button>
                         <button class="btn-sm btn-reject" onclick="updateBookingStatus(${b.id}, 'Rejected')">Reject</button>
-                    ` : 'Completed'}
+                    ` : 'Processed'}
                 </td>
             </tr>
         `;
@@ -86,12 +86,12 @@ async function updateBookingStatus(id, status) {
 }
 
 async function renderAdminControls() {
-    const resRooms = await fetch('/api/rooms');
-    const rooms = await resRooms.json();
-    document.getElementById('adminRoomList').innerHTML = rooms.map(r => `
+    const resVillas = await fetch('/api/villas');
+    const villas = await resVillas.json();
+    document.getElementById('adminVillaList').innerHTML = villas.map(v => `
         <li>
-            <span>${r.name}</span>
-            <button class="btn-outline" onclick="toggleRoomStatus(${r.id})">${r.status}</button>
+            <span>${v.name}</span>
+            <button class="btn-outline" onclick="toggleVillaStatus(${v.id})">${v.status}</button>
         </li>
     `).join('');
 
@@ -104,8 +104,8 @@ async function renderAdminControls() {
     `).join('');
 }
 
-async function toggleRoomStatus(id) {
-    await fetch(`/api/rooms/${id}/toggle`, { method: 'PUT' });
+async function toggleVillaStatus(id) {
+    await fetch(`/api/villas/${id}/toggle`, { method: 'PUT' });
     renderAdminControls();
 }
 
@@ -137,7 +137,7 @@ async function submitLeave(e) {
         body: JSON.stringify({ name, reason, days })
     });
 
-    alert("Leave Application Submitted!");
+    alert("Leave Request Submitted!");
     e.target.reset();
     renderLeaves();
 }
