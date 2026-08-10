@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Grand Horizon - Luxury Hotel & Resort</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="logo">GRAND HORIZON</div>
+        <nav>
+            <ul>
+                <li><a href="#" onclick="navigate('home')">Home</a></li>
+                <li><a href="#" onclick="navigate('booking')">Book Room</a></li>
+                <li><a href="#" onclick="navigate('customer-dashboard')">Customer Dashboard</a></li>
+                <li><a href="#" onclick="navigate('admin-panel')">Admin Panel</a></li>
+                <li><a href="#" onclick="navigate('staff-leave')">Staff Portal</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home" class="page-section active">
+        <div class="hero">
+            <h1>Experience Unrivaled Luxury</h1>
+            <p>Discover a sanctuary of elegance, comfort, and timeless hospitality.</p>
+            <button class="btn-gold" onclick="navigate('booking')">Reserve Your Stay</button>
+        </div>
+
+        <div class="container">
+            <h2 class="section-title">Our Signature Suites</h2>
+            <div class="grid-3">
+                <div class="card room-card">
+                    <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=500" alt="Presidential Suite">
+                    <div class="card-body">
+                        <h3>Presidential Suite</h3>
+                        <p class="price">$450 / Night</p>
+                        <p>Ocean view, private jacuzzi, and 24/7 personal butler.</p>
+                        <button class="btn-outline" onclick="selectRoom('Presidential Suite 101')">Book Suite</button>
+                    </div>
+                </div>
+                <div class="card room-card">
+                    <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=500" alt="Executive Deluxe">
+                    <div class="card-body">
+                        <h3>Executive Deluxe</h3>
+                        <p class="price">$280 / Night</p>
+                        <p>King size bed, city skyline view, and complimentary spa.</p>
+                        <button class="btn-outline" onclick="selectRoom('Executive Deluxe 201')">Book Suite</button>
+                    </div>
+                </div>
+                <div class="card room-card">
+                    <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=500" alt="Royal Family Suite">
+                    <div class="card-body">
+                        <h3>Royal Family Suite</h3>
+                        <p class="price">$350 / Night</p>
+                        <p>Spacious two-bedroom suite with private lounge balcony.</p>
+                        <button class="btn-outline" onclick="selectRoom('Royal Family Suite 301')">Book Suite</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="booking" class="page-section">
+        <div class="container">
+            <h2 class="section-title">Reserve Your Stay</h2>
+            <div class="card form-container">
+                <form id="bookingForm" onsubmit="submitBooking(event)">
+                    <div class="form-group">
+                        <label>Guest Full Name</label>
+                        <input type="text" id="guestName" placeholder="e.g. John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Room Category</label>
+                        <select id="roomType">
+                            <option value="Presidential Suite 101">Presidential Suite 101 ($450)</option>
+                            <option value="Executive Deluxe 201">Executive Deluxe 201 ($280)</option>
+                            <option value="Royal Family Suite 301">Royal Family Suite 301 ($350)</option>
+                        </select>
+                    </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Check-In Date</label>
+                            <input type="date" id="checkIn" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Check-Out Date</label>
+                            <input type="date" id="checkOut" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-gold block">Confirm Reservation</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section id="customer-dashboard" class="page-section">
+        <div class="container">
+            <h2 class="section-title">Customer Dashboard</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3 id="statTotal">0</h3>
+                    <p>Total Bookings</p>
+                </div>
+                <div class="stat-card yellow">
+                    <h3 id="statPending">0</h3>
+                    <p>Pending Approval</p>
+                </div>
+                <div class="stat-card green">
+                    <h3 id="statApproved">0</h3>
+                    <p>Approved Reservations</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>My Booking Status</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>Guest Name</th>
+                            <th>Suite</th>
+                            <th>Dates</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customerTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="admin-panel" class="page-section">
+        <div class="container">
+            <h2 class="section-title">Admin Management Console</h2>
+
+            <div class="card">
+                <h3>Guest Reservations Control</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Guest Name</th>
+                            <th>Room</th>
+                            <th>Check-In / Out</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminBookingTable"></tbody>
+                </table>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3>Room Availability Control</h3>
+                    <ul class="list-box" id="adminRoomList"></ul>
+                </div>
+
+                <div class="card">
+                    <h3>Employee Directory</h3>
+                    <form onsubmit="addEmployee(event)" class="inline-form">
+                        <input type="text" id="empName" placeholder="Name" required>
+                        <input type="text" id="empRole" placeholder="Role" required>
+                        <button type="submit" class="btn-gold">Add Staff</button>
+                    </form>
+                    <ul class="list-box" id="adminEmpList"></ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="staff-leave" class="page-section">
+        <div class="container">
+            <h2 class="section-title">Staff Portal - Leave Management</h2>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3>Request Leave</h3>
+                    <form onsubmit="submitLeave(event)">
+                        <div class="form-group">
+                            <label>Employee Name</label>
+                            <input type="text" id="leaveName" required placeholder="Enter full name">
+                        </div>
+                        <div class="form-group">
+                            <label>Reason for Leave</label>
+                            <input type="text" id="leaveReason" required placeholder="e.g. Medical / Family">
+                        </div>
+                        <div class="form-group">
+                            <label>Duration (Days)</label>
+                            <input type="number" id="leaveDays" min="1" required placeholder="1">
+                        </div>
+                        <button type="submit" class="btn-gold block">Submit Leave Request</button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h3>Leave Applications Status</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Staff Name</th>
+                                <th>Reason</th>
+                                <th>Days</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaveTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
